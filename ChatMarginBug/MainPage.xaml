@@ -1,0 +1,74 @@
+﻿<Page
+    x:Class="ChatMarginBug.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:ChatMarginBug"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style x:Key="ChatListViewStyle" TargetType="ListView">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="SelectionMode" Value="None" />
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="Margin" Value="12,2,12,2" />
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+
+        <ListView ItemsSource="{x:Bind MyTweets}" Style="{StaticResource ChatListViewStyle}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="local:TweetData">
+                    <Grid HorizontalAlignment="{x:Bind MyTweetType, Converter={StaticResource TweetTypeToHAConverter1}}" x:DefaultBindMode="OneWay">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="{x:Bind MyTweetType, Converter={StaticResource TweetTypeToC1DefConverter1}}" />
+                            <ColumnDefinition Width="{x:Bind MyTweetType, Converter={StaticResource TweetTypeToC2DefConverter1}}" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="{x:Bind MyTweetType, Converter={StaticResource TweetTypeToMetaDataColumnConverter1}}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Margin="0,0,0,4"
+                                HorizontalAlignment="Center"
+                                FontSize="{StaticResource TinyFontSize}"
+                                FontWeight="Bold"
+                                Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
+                                Text="Name" />
+                            <TextBlock
+                                Grid.Row="1"
+                                HorizontalAlignment="Center"
+                                FontSize="{StaticResource TinyFontSize}"
+                                Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
+                                Text="15:00" />
+                        </Grid>
+                        <Grid
+                            Grid.Column="{x:Bind MyTweetType, Converter={StaticResource TweetTypeToMsgColumnConverter1}}"
+                            MinWidth="120"
+                            Background="{x:Bind MyTweetType, Converter={StaticResource TweetTypeToColorConverter1}}">
+                            <TextBlock
+                                Margin="16,8,16,8"
+                                FontSize="{StaticResource SmallFontSize}"
+                                FontWeight="Normal"
+                                Text="{x:Bind Text}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="WrapWholeWords" />
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>
